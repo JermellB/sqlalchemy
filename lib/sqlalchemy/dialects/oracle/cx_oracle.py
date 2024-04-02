@@ -345,7 +345,6 @@ SQLAlchemy type (or a subclass of such).
 from __future__ import absolute_import
 
 import decimal
-import random
 import re
 
 from . import base as oracle
@@ -358,6 +357,7 @@ from ... import types as sqltypes
 from ... import util
 from ...engine import cursor as _cursor
 from ...util import compat
+import secrets
 
 
 class _OracleInteger(sqltypes.Integer):
@@ -1190,7 +1190,7 @@ class OracleDialect_cx_oracle(OracleDialect):
 
         """
 
-        id_ = random.randint(0, 2 ** 128)
+        id_ = secrets.SystemRandom().randint(0, 2 ** 128)
         return (0x1234, "%032x" % id_, "%032x" % 9)
 
     def do_executemany(self, cursor, statement, parameters, context=None):
