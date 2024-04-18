@@ -991,12 +991,8 @@ def _is_many_to_many(automap_base, table):
         return None, None, None
 
     cols = sum(
-        [
-            [fk.parent for fk in fk_constraint.elements]
-            for fk_constraint in fk_constraints
-        ],
-        [],
-    )
+        [fk.parent for fk in fk_constraint.elements]
+            for fk_constraint in fk_constraints)
 
     if set(cols) != set(table.c):
         return None, None, None

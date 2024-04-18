@@ -3182,7 +3182,7 @@ class SQLCompiler(Compiled):
     def _render_cte_clause(self):
         if self.positional:
             self.positiontup = (
-                sum([self.cte_positional[cte] for cte in self.ctes], [])
+                sum(self.cte_positional[cte] for cte in self.ctes)
                 + self.positiontup
             )
         cte_text = self.get_cte_preamble(self.ctes_recursive) + " "
