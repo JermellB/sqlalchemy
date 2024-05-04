@@ -15,8 +15,6 @@ an equivalent :class:`._EventKey`.
 
 """
 
-from __future__ import absolute_import
-
 import collections
 import types
 import weakref

@@ -14,7 +14,6 @@ This is a semi-private module; the main configurational API of the ORM is
 available in :class:`~sqlalchemy.orm.`.
 
 """
-from __future__ import absolute_import
 
 from collections import deque
 from itertools import chain

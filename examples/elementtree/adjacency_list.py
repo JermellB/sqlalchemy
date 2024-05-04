@@ -17,9 +17,6 @@ class.
 
 """
 
-# PART I - Imports/Configuration
-from __future__ import print_function
-
 import os
 import re
 from xml.etree import ElementTree

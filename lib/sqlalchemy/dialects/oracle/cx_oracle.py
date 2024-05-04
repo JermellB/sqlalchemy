@@ -342,8 +342,6 @@ SQLAlchemy type (or a subclass of such).
 
 """  # noqa
 
-from __future__ import absolute_import
-
 import decimal
 import random
 import re

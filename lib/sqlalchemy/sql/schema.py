@@ -28,7 +28,6 @@ Since these objects are part of the SQL expression language, they are usable
 as components in SQL expressions.
 
 """
-from __future__ import absolute_import
 
 import collections
 

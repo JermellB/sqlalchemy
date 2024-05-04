@@ -78,8 +78,6 @@ time, at the expense of slower startup time for new connections.
 
 """  # noqa
 
-from __future__ import absolute_import
-
 from .pysqlite import SQLiteDialect_pysqlite
 from ... import pool
 from ...engine import url as _url

@@ -13,7 +13,6 @@ SQL annotation and aliasing behavior focused on the `primaryjoin`
 and `secondaryjoin` aspects of :func:`_orm.relationship`.
 
 """
-from __future__ import absolute_import
 
 import collections
 import re

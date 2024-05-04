@@ -7,8 +7,6 @@
 
 """Collection classes and helpers."""
 
-from __future__ import absolute_import
-
 import operator
 import types
 import weakref
