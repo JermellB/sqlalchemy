@@ -530,7 +530,7 @@ class AliasedClass(object):
         # attribute is a method, that will be invoked against a
         # "self"; so just return a new method with the same function and
         # new self
-        if hasattr(attr, "__call__") and hasattr(attr, "__self__"):
+        if callable(attr) and hasattr(attr, "__self__"):
             return types.MethodType(attr.__func__, self)
 
         # attribute is a descriptor, that will be invoked against a
@@ -550,7 +550,7 @@ class AliasedClass(object):
         # this method is only used in terms of the
         # sqlalchemy.ext.serializer extension
         attr = getattr(mapped_class, key)
-        if hasattr(attr, "__call__") and hasattr(attr, "__self__"):
+        if callable(attr) and hasattr(attr, "__self__"):
             return types.MethodType(attr.__func__, self)
 
         # attribute is a descriptor, that will be invoked against a

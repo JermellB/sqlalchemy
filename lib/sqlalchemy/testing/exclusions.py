@@ -292,7 +292,7 @@ class SpecPredicate(Predicate):
 
             version = _server_version(engine)
             oper = (
-                hasattr(self.op, "__call__") and self.op or self._ops[self.op]
+                callable(self.op) and self.op or self._ops[self.op]
             )
             return oper(version, self.spec)
         else:

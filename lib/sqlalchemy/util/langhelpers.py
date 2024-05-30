@@ -471,7 +471,7 @@ def get_callable_argspec(fn, no_self=False, _is_init=False):
         )
     elif hasattr(fn, "__func__"):
         return compat.inspect_getfullargspec(fn.__func__)
-    elif hasattr(fn, "__call__"):
+    elif callable(fn):
         if inspect.ismethod(fn.__call__):
             return get_callable_argspec(fn.__call__, no_self=no_self)
         else:
@@ -960,7 +960,7 @@ def monkeypatch_proxied_specials(
     for method in dunders:
         try:
             fn = getattr(from_cls, method)
-            if not hasattr(fn, "__call__"):
+            if not callable(fn):
                 continue
             fn = getattr(fn, "__func__", fn)
         except AttributeError:
