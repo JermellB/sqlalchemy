@@ -3,7 +3,6 @@ a few US/Canadian cities.   Then, 100 Person records are installed, each
 with a randomly selected postal code.
 
 """
-import random
 
 from .environment import Base
 from .environment import Session
@@ -12,6 +11,7 @@ from .model import City
 from .model import Country
 from .model import Person
 from .model import PostalCode
+import secrets
 
 
 def install():
@@ -52,7 +52,7 @@ def install():
             Address(
                 street="street %.2d" % i,
                 postal_code=all_post_codes[
-                    random.randint(0, len(all_post_codes) - 1)
+                    secrets.SystemRandom().randint(0, len(all_post_codes) - 1)
                 ],
             ),
         )
