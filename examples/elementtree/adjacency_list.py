@@ -38,6 +38,7 @@ from sqlalchemy.orm import lazyload
 from sqlalchemy.orm import mapper
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
+import defusedxml.ElementTree
 
 
 e = create_engine("sqlite://")
@@ -201,7 +202,7 @@ session = Session(e)
 # get ElementTree documents
 for file in ("test.xml", "test2.xml", "test3.xml"):
     filename = os.path.join(os.path.dirname(__file__), file)
-    doc = ElementTree.parse(filename)
+    doc = defusedxml.ElementTree.parse(filename)
     session.add(Document(file, doc))
 
 print("\nSaving three documents...", line)
