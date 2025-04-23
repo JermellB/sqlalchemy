@@ -3,7 +3,6 @@ record by primary key
 
 
 """
-import random
 
 from sqlalchemy import bindparam
 from sqlalchemy import Column
@@ -18,6 +17,7 @@ from sqlalchemy.orm import deferred
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import lambdas
 from . import Profiler
+import secrets
 
 
 Base = declarative_base()
@@ -69,7 +69,7 @@ def setup_database(dburl, echo, num):
 def test_orm_query_classic_style(n):
     """classic ORM query of the full entity."""
     session = Session(bind=engine)
-    for id_ in random.sample(ids, n):
+    for id_ in secrets.SystemRandom().sample(ids, n):
         session.query(Customer).filter(Customer.id == id_).one()
 
 
@@ -78,7 +78,7 @@ def test_orm_query_new_style(n):
     """new style ORM select() of the full entity."""
 
     session = Session(bind=engine)
-    for id_ in random.sample(ids, n):
+    for id_ in secrets.SystemRandom().sample(ids, n):
         stmt = future_select(Customer).where(Customer.id == id_)
         session.execute(stmt).scalar_one()
 
@@ -87,7 +87,7 @@ def test_orm_query_new_style(n):
 def test_orm_query_new_style_using_embedded_lambdas(n):
     """new style ORM select() of the full entity w/ embedded lambdas."""
     session = Session(bind=engine)
-    for id_ in random.sample(ids, n):
+    for id_ in secrets.SystemRandom().sample(ids, n):
         stmt = future_select(lambda: Customer).where(
             lambda: Customer.id == id_
         )
@@ -99,7 +99,7 @@ def test_orm_query_new_style_using_external_lambdas(n):
     """new style ORM select() of the full entity w/ external lambdas."""
 
     session = Session(bind=engine)
-    for id_ in random.sample(ids, n):
+    for id_ in secrets.SystemRandom().sample(ids, n):
 
         stmt = lambdas.lambda_stmt(lambda: future_select(Customer))
         stmt += lambda s: s.where(Customer.id == id_)
@@ -110,7 +110,7 @@ def test_orm_query_new_style_using_external_lambdas(n):
 def test_orm_query_classic_style_cols_only(n):
     """classic ORM query against columns"""
     session = Session(bind=engine)
-    for id_ in random.sample(ids, n):
+    for id_ in secrets.SystemRandom().sample(ids, n):
         session.query(Customer.id, Customer.name, Customer.description).filter(
             Customer.id == id_
         ).one()
@@ -120,7 +120,7 @@ def test_orm_query_classic_style_cols_only(n):
 def test_orm_query_new_style_ext_lambdas_cols_only(n):
     """new style ORM query w/ external lambdas against columns."""
     s = Session(bind=engine)
-    for id_ in random.sample(ids, n):
+    for id_ in secrets.SystemRandom().sample(ids, n):
         stmt = lambdas.lambda_stmt(
             lambda: future_select(
                 Customer.id, Customer.name, Customer.description
@@ -134,7 +134,7 @@ def test_baked_query(n):
     """test a baked query of the full entity."""
     bakery = baked.bakery()
     s = Session(bind=engine)
-    for id_ in random.sample(ids, n):
+    for id_ in secrets.SystemRandom().sample(ids, n):
         q = bakery(lambda s: s.query(Customer))
         q += lambda q: q.filter(Customer.id == bindparam("id"))
         q(s).params(id=id_).one()
@@ -145,7 +145,7 @@ def test_baked_query_cols_only(n):
     """test a baked query of only the entity columns."""
     bakery = baked.bakery()
     s = Session(bind=engine)
-    for id_ in random.sample(ids, n):
+    for id_ in secrets.SystemRandom().sample(ids, n):
         q = bakery(
             lambda s: s.query(Customer.id, Customer.name, Customer.description)
         )
@@ -158,7 +158,7 @@ def test_core_new_stmt_each_time(n):
     """test core, creating a new statement each time."""
 
     with engine.connect() as conn:
-        for id_ in random.sample(ids, n):
+        for id_ in secrets.SystemRandom().sample(ids, n):
             stmt = select(Customer.__table__).where(Customer.id == id_)
             row = conn.execute(stmt).first()
             tuple(row)
@@ -172,7 +172,7 @@ def test_core_new_stmt_each_time_compiled_cache(n):
     with engine.connect().execution_options(
         compiled_cache=compiled_cache
     ) as conn:
-        for id_ in random.sample(ids, n):
+        for id_ in secrets.SystemRandom().sample(ids, n):
             stmt = select(Customer.__table__).where(Customer.id == id_)
             row = conn.execute(stmt).first()
             tuple(row)
@@ -184,7 +184,7 @@ def test_core_reuse_stmt(n):
 
     stmt = select(Customer.__table__).where(Customer.id == bindparam("id"))
     with engine.connect() as conn:
-        for id_ in random.sample(ids, n):
+        for id_ in secrets.SystemRandom().sample(ids, n):
 
             row = conn.execute(stmt, id=id_).first()
             tuple(row)
@@ -199,7 +199,7 @@ def test_core_reuse_stmt_compiled_cache(n):
     with engine.connect().execution_options(
         compiled_cache=compiled_cache
     ) as conn:
-        for id_ in random.sample(ids, n):
+        for id_ in secrets.SystemRandom().sample(ids, n):
             row = conn.execute(stmt, id=id_).first()
             tuple(row)
 
