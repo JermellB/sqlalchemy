@@ -22,6 +22,7 @@ from sqlalchemy import String
 from sqlalchemy import Table
 from sqlalchemy.orm import mapper
 from sqlalchemy.orm import Session
+import defusedxml.ElementTree
 
 
 e = create_engine("sqlite://")
@@ -64,7 +65,7 @@ mapper(Document, documents)
 
 # get ElementTree document
 filename = os.path.join(os.path.dirname(__file__), "test.xml")
-doc = ElementTree.parse(filename)
+doc = defusedxml.ElementTree.parse(filename)
 
 # save to DB
 session = Session(e)
