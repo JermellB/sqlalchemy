@@ -7,7 +7,6 @@
 
 import decimal
 import gc
-import random
 import sys
 import types
 
@@ -27,6 +26,7 @@ from ..util import defaultdict
 from ..util import has_refcount_gc
 from ..util import inspect_getfullargspec
 from ..util import py2k
+import secrets
 
 
 if not has_refcount_gc:
@@ -69,14 +69,14 @@ if py2k:
     def random_choices(population, k=1):
         pop = list(population)
         # lame but works :)
-        random.shuffle(pop)
+        secrets.SystemRandom().shuffle(pop)
         return pop[0:k]
 
 
 else:
 
     def random_choices(population, k=1):
-        return random.choices(population, k=k)
+        return secrets.SystemRandom().choices(population, k=k)
 
 
 def round_decimal(value, prec):
@@ -92,11 +92,11 @@ def round_decimal(value, prec):
 class RandomSet(set):
     def __iter__(self):
         l = list(set.__iter__(self))
-        random.shuffle(l)
+        secrets.SystemRandom().shuffle(l)
         return iter(l)
 
     def pop(self):
-        index = random.randint(0, len(self) - 1)
+        index = secrets.SystemRandom().randint(0, len(self) - 1)
         item = list(set.__iter__(self))[index]
         self.remove(item)
         return item

@@ -1,6 +1,5 @@
 import curses
 import logging
-import random
 import re
 import sys
 import textwrap
@@ -18,6 +17,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
+import secrets
 
 
 _PY3 = sys.version_info > (3, 0)
@@ -677,7 +677,7 @@ def move_saucer(session, window, state):
 
     if state["saucer"] is None:
         state["saucer"] = saucer = GlyphCoordinate(
-            session, "saucer", -6, 1, score=random.randrange(100, 600, 100)
+            session, "saucer", -6, 1, score=secrets.SystemRandom().randrange(100, 600, 100)
         )
     elif state["tick"] % saucer_speed_interval == 0:
         saucer = state["saucer"]

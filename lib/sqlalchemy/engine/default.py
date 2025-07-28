@@ -15,7 +15,6 @@ as the base class for their own corresponding classes.
 
 import codecs
 import functools
-import random
 import re
 import weakref
 
@@ -31,6 +30,7 @@ from .. import util
 from ..sql import compiler
 from ..sql import expression
 from ..sql.elements import quoted_name
+import secrets
 
 AUTOCOMMIT_REGEXP = re.compile(
     r"\s*(?:UPDATE|INSERT|CREATE|DELETE|DROP|ALTER)", re.I | re.UNICODE
@@ -664,7 +664,7 @@ class DefaultDialect(interfaces.Dialect):
         do_commit_twophase().  Its format is unspecified.
         """
 
-        return "_sa_%032x" % random.randint(0, 2 ** 128)
+        return "_sa_%032x" % secrets.SystemRandom().randint(0, 2 ** 128)
 
     def do_savepoint(self, connection, name):
         connection.execute(expression.SavepointClause(name))
